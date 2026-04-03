@@ -221,12 +221,13 @@
     padding: 4px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--text-secondary);
     background: var(--bg-warm);
   }
-  .savings-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .savings-table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
   .savings-table th {
     text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
     color: var(--text-muted); padding-bottom: 6px; border-bottom: 1px solid var(--border-light);
   }
-  .savings-table th:last-child, .savings-table td:last-child { text-align: right; }
+  .savings-table th:first-child, .savings-table td:first-child { width: 65%; }
+  .savings-table th:last-child, .savings-table td:last-child { text-align: right; width: 35%; }
   .savings-table td {
     padding: 8px 0; border-bottom: 1px solid var(--border-light); font-family: 'IBM Plex Mono', monospace;
   }
