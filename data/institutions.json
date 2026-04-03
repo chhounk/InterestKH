@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-03T11:35:26.882Z",
+  "updated_at": "2026-04-03T12:38:25.895Z",
   "institutions": [
     {
       "id": "aba",
@@ -63,32 +63,32 @@
       },
       "notes": {
         "en": "Rates shown are over-the-counter. Mobile-banking rates may differ.",
-        "kh": "\u17a2\u178f\u17d2\u179a\u17b6\u1793\u17c1\u17c7\u179f\u1798\u17d2\u179a\u17b6\u1794\u17cb\u1780\u17b6\u179a\u1794\u17be\u1780\u178a\u17c4\u1799\u1795\u17d2\u1791\u17b6\u179b\u17cb\u17d4 \u17a2\u178f\u17d2\u179a\u17b6\u178f\u17b6\u1798 Mobile Banking \u17a2\u17b6\u1785\u1781\u17bb\u179f\u1782\u17d2\u1793\u17b6\u17d4"
+        "kh": "អត្រានេះសម្រាប់ការបើកដោយផ្ទាល់។ អត្រាតាម Mobile Banking អាចខុសគ្នា។"
       },
       "savings_brackets": {
         "usd": [
           {
-            "balance": "\u2264 10,000",
+            "balance": "≤ 10,000",
             "rate": 0
           },
           {
-            "balance": "\u2264 25,000",
+            "balance": "≤ 25,000",
             "rate": 0.1
           },
           {
-            "balance": "\u2264 50,000",
+            "balance": "≤ 50,000",
             "rate": 0.15
           },
           {
-            "balance": "\u2264 100,000",
+            "balance": "≤ 100,000",
             "rate": 0.25
           },
           {
-            "balance": "\u2264 500,000",
+            "balance": "≤ 500,000",
             "rate": 0.4
           },
           {
-            "balance": "\u2264 1,000,000",
+            "balance": "≤ 1,000,000",
             "rate": 0.5
           },
           {
@@ -98,11 +98,11 @@
         ],
         "khr": [
           {
-            "balance": "\u2264 20,000,000",
+            "balance": "≤ 20,000,000",
             "rate": 0
           },
           {
-            "balance": "\u2264 100,000,000",
+            "balance": "≤ 100,000,000",
             "rate": 1
           },
           {
@@ -174,24 +174,24 @@
       },
       "notes": {
         "en": "Hi-Income (monthly) and Hi-Growth (maturity) counter rates.",
-        "kh": "\u17a2\u178f\u17d2\u179a\u17b6 Counter \u179f\u1798\u17d2\u179a\u17b6\u1794\u17cb Hi-Income (\u1794\u17d2\u179a\u1785\u17b6\u17c6\u1781\u17c2) \u1793\u17b7\u1784 Hi-Growth (\u1795\u17bb\u178f\u1780\u17c6\u178e\u178f\u17cb)\u17d4"
+        "kh": "អត្រា Counter សម្រាប់ Hi-Income (ប្រចាំខែ) និង Hi-Growth (ផុតកំណត់)។"
       },
       "savings_brackets": {
         "usd": [
           {
-            "balance": "\u2264 5,000",
+            "balance": "≤ 5,000",
             "rate": 0.2
           },
           {
-            "balance": "\u2264 50,000",
+            "balance": "≤ 50,000",
             "rate": 0.3
           },
           {
-            "balance": "\u2264 100,000",
+            "balance": "≤ 100,000",
             "rate": 0.5
           },
           {
-            "balance": "\u2264 500,000",
+            "balance": "≤ 500,000",
             "rate": 0.75
           },
           {
@@ -201,19 +201,19 @@
         ],
         "khr": [
           {
-            "balance": "\u2264 20,000,000",
+            "balance": "≤ 20,000,000",
             "rate": 0.2
           },
           {
-            "balance": "\u2264 200,000,000",
+            "balance": "≤ 200,000,000",
             "rate": 0.3
           },
           {
-            "balance": "\u2264 400,000,000",
+            "balance": "≤ 400,000,000",
             "rate": 0.5
           },
           {
-            "balance": "\u2264 2,000,000,000",
+            "balance": "≤ 2,000,000,000",
             "rate": 0.75
           },
           {
@@ -231,7 +231,7 @@
       "ownership": "Pung Kheav Se",
       "year_started": 1991,
       "contact": {
-        "phone": "023\u00a0868 222",
+        "phone": "023 868 222",
         "email": null,
         "website": "https://www.canadiabank.com.kh",
         "address": "Head Office, Phnom Penh"
@@ -286,15 +286,15 @@
       "savings_brackets": {
         "usd": [
           {
-            "balance": "\u2264 500",
+            "balance": "≤ 500",
             "rate": 0.35
           },
           {
-            "balance": "\u2264 1,000",
+            "balance": "≤ 1,000",
             "rate": 0.45
           },
           {
-            "balance": "\u2264 5,000",
+            "balance": "≤ 5,000",
             "rate": 0.55
           },
           {
@@ -373,21 +373,21 @@
       "savings_brackets": {
         "usd": [
           {
-            "balance": "\u2264 5,000",
+            "balance": "≤ 5,000",
             "rate": 0.1
           },
           {
-            "balance": "\u2265 5,000",
+            "balance": "≥ 5,000",
             "rate": 3
           }
         ],
         "khr": [
           {
-            "balance": "\u2264 20,000,000",
+            "balance": "≤ 20,000,000",
             "rate": 0.1
           },
           {
-            "balance": "\u2265 20,000,000",
+            "balance": "≥ 20,000,000",
             "rate": 3
           }
         ]
@@ -626,7 +626,7 @@
       "name": "LOLC",
       "short": "LC",
       "type": "mfi",
-      "ownership": "TPC-ESOP + \u00a0LOLC Asia Private Limited",
+      "ownership": "TPC-ESOP +  LOLC Asia Private Limited",
       "year_started": 1994,
       "contact": {
         "phone": "023 991 991",
