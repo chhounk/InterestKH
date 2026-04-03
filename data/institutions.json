@@ -1,0 +1,877 @@
+{
+  "updated_at": "2026-04-03T11:35:26.882Z",
+  "institutions": [
+    {
+      "id": "aba",
+      "name": "ABA Bank",
+      "short": "ABA",
+      "type": "bank",
+      "ownership": "Foreign-owned (National Bank of Canada)",
+      "year_started": 1996,
+      "contact": {
+        "phone": "098 203 333",
+        "email": "abainfo@ababank.com",
+        "website": "https://www.ababank.com",
+        "address": "141 Preah Norodom Blvd, Phnom Penh"
+      },
+      "logo": "LOGO/ABA.png",
+      "rates": {
+        "usd": {
+          "monthly": {
+            "3": 1.5,
+            "6": 1.75,
+            "9": null,
+            "12": 2,
+            "24": 2,
+            "36": 2,
+            "48": null,
+            "60": null
+          },
+          "maturity": {
+            "3": 1.75,
+            "6": 2,
+            "9": null,
+            "12": 2.25,
+            "24": 2.25,
+            "36": 2.25,
+            "48": null,
+            "60": null
+          }
+        },
+        "khr": {
+          "monthly": {
+            "3": 1.75,
+            "6": 2,
+            "9": null,
+            "12": 2.25,
+            "24": 2.25,
+            "36": 2.25,
+            "48": 2.25,
+            "60": 2.25
+          },
+          "maturity": {
+            "3": 2.25,
+            "6": 2.5,
+            "9": null,
+            "12": 2.75,
+            "24": 2.75,
+            "36": 2.75,
+            "48": 2.75,
+            "60": 2.75
+          }
+        }
+      },
+      "notes": {
+        "en": "Rates shown are over-the-counter. Mobile-banking rates may differ.",
+        "kh": "\u17a2\u178f\u17d2\u179a\u17b6\u1793\u17c1\u17c7\u179f\u1798\u17d2\u179a\u17b6\u1794\u17cb\u1780\u17b6\u179a\u1794\u17be\u1780\u178a\u17c4\u1799\u1795\u17d2\u1791\u17b6\u179b\u17cb\u17d4 \u17a2\u178f\u17d2\u179a\u17b6\u178f\u17b6\u1798 Mobile Banking \u17a2\u17b6\u1785\u1781\u17bb\u179f\u1782\u17d2\u1793\u17b6\u17d4"
+      },
+      "savings_brackets": {
+        "usd": [
+          {
+            "balance": "\u2264 10,000",
+            "rate": 0
+          },
+          {
+            "balance": "\u2264 25,000",
+            "rate": 0.1
+          },
+          {
+            "balance": "\u2264 50,000",
+            "rate": 0.15
+          },
+          {
+            "balance": "\u2264 100,000",
+            "rate": 0.25
+          },
+          {
+            "balance": "\u2264 500,000",
+            "rate": 0.4
+          },
+          {
+            "balance": "\u2264 1,000,000",
+            "rate": 0.5
+          },
+          {
+            "balance": "> 1,000,000",
+            "rate": 0.6
+          }
+        ],
+        "khr": [
+          {
+            "balance": "\u2264 20,000,000",
+            "rate": 0
+          },
+          {
+            "balance": "\u2264 100,000,000",
+            "rate": 1
+          },
+          {
+            "balance": "> 100,000,000",
+            "rate": 1.25
+          }
+        ]
+      }
+    },
+    {
+      "id": "acleda",
+      "name": "ACLEDA Bank",
+      "short": "AC",
+      "type": "bank",
+      "ownership": "Public Company",
+      "year_started": 1993,
+      "contact": {
+        "phone": "015 999 233.",
+        "email": null,
+        "website": "https://www.acledabank.com.kh",
+        "address": null
+      },
+      "logo": "LOGO/ACLEDA.png",
+      "rates": {
+        "usd": {
+          "monthly": {
+            "3": 1.6,
+            "6": 1.75,
+            "9": 2.1,
+            "12": 2.5,
+            "24": 2.6,
+            "36": null,
+            "48": null,
+            "60": null
+          },
+          "maturity": {
+            "3": 1.8,
+            "6": 2.15,
+            "9": 2.65,
+            "12": 3.4,
+            "24": 3.5,
+            "36": null,
+            "48": null,
+            "60": null
+          }
+        },
+        "khr": {
+          "monthly": {
+            "3": 2.05,
+            "6": 2.95,
+            "9": 3.25,
+            "12": 3.5,
+            "24": 3.6,
+            "36": null,
+            "48": null,
+            "60": null
+          },
+          "maturity": {
+            "3": 2.45,
+            "6": 3.45,
+            "9": 3.75,
+            "12": 4.2,
+            "24": 4.3,
+            "36": null,
+            "48": null,
+            "60": null
+          }
+        }
+      },
+      "notes": {
+        "en": "Hi-Income (monthly) and Hi-Growth (maturity) counter rates.",
+        "kh": "\u17a2\u178f\u17d2\u179a\u17b6 Counter \u179f\u1798\u17d2\u179a\u17b6\u1794\u17cb Hi-Income (\u1794\u17d2\u179a\u1785\u17b6\u17c6\u1781\u17c2) \u1793\u17b7\u1784 Hi-Growth (\u1795\u17bb\u178f\u1780\u17c6\u178e\u178f\u17cb)\u17d4"
+      },
+      "savings_brackets": {
+        "usd": [
+          {
+            "balance": "\u2264 5,000",
+            "rate": 0.2
+          },
+          {
+            "balance": "\u2264 50,000",
+            "rate": 0.3
+          },
+          {
+            "balance": "\u2264 100,000",
+            "rate": 0.5
+          },
+          {
+            "balance": "\u2264 500,000",
+            "rate": 0.75
+          },
+          {
+            "balance": "> 500,000",
+            "rate": 1
+          }
+        ],
+        "khr": [
+          {
+            "balance": "\u2264 20,000,000",
+            "rate": 0.2
+          },
+          {
+            "balance": "\u2264 200,000,000",
+            "rate": 0.3
+          },
+          {
+            "balance": "\u2264 400,000,000",
+            "rate": 0.5
+          },
+          {
+            "balance": "\u2264 2,000,000,000",
+            "rate": 0.75
+          },
+          {
+            "balance": "> 2,000,000,000",
+            "rate": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "canadia",
+      "name": "Canadia Bank",
+      "short": "CB",
+      "type": "bank",
+      "ownership": "Pung Kheav Se",
+      "year_started": 1991,
+      "contact": {
+        "phone": "023\u00a0868 222",
+        "email": null,
+        "website": "https://www.canadiabank.com.kh",
+        "address": "Head Office, Phnom Penh"
+      },
+      "logo": "LOGO/Canadia.jpeg",
+      "rates": {
+        "usd": {
+          "monthly": {
+            "3": 1.85,
+            "6": 3.2,
+            "9": 3.45,
+            "12": 3.6,
+            "24": 3.6,
+            "36": null,
+            "48": null,
+            "60": null
+          },
+          "maturity": {
+            "3": 2.1,
+            "6": 3.45,
+            "9": 3.7,
+            "12": 3.85,
+            "24": 3.85,
+            "36": 3.9,
+            "48": 3.9,
+            "60": 3.9
+          }
+        },
+        "khr": {
+          "monthly": {
+            "3": 2.6,
+            "6": 3.6,
+            "9": 3.85,
+            "12": 4,
+            "24": 4,
+            "36": null,
+            "48": null,
+            "60": null
+          },
+          "maturity": {
+            "3": 2.85,
+            "6": 3.85,
+            "9": 4.1,
+            "12": 4.25,
+            "24": 4.25,
+            "36": 4.3,
+            "48": 4.3,
+            "60": 4.3
+          }
+        }
+      },
+      "savings_brackets": {
+        "usd": [
+          {
+            "balance": "\u2264 500",
+            "rate": 0.35
+          },
+          {
+            "balance": "\u2264 1,000",
+            "rate": 0.45
+          },
+          {
+            "balance": "\u2264 5,000",
+            "rate": 0.55
+          },
+          {
+            "balance": "> 5,000",
+            "rate": 0.75
+          }
+        ],
+        "khr": [
+          {
+            "balance": "Any balance",
+            "rate": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "wing",
+      "name": "Wing Bank",
+      "short": "WB",
+      "type": "bank",
+      "ownership": "Kith Meng",
+      "year_started": 2022,
+      "contact": {
+        "phone": null,
+        "email": null,
+        "website": "https://www.wingbank.com.kh",
+        "address": null
+      },
+      "logo": "LOGO/Wing.png",
+      "rates": {
+        "usd": {
+          "monthly": {
+            "3": 2.25,
+            "6": 3.25,
+            "9": 3.5,
+            "12": 4,
+            "24": 4,
+            "36": 4,
+            "48": 4,
+            "60": 4
+          },
+          "maturity": {
+            "3": 2.5,
+            "6": 3.5,
+            "9": 4,
+            "12": 4.5,
+            "24": 4.5,
+            "36": 5.5,
+            "48": 5.5,
+            "60": 5.5
+          }
+        },
+        "khr": {
+          "monthly": {
+            "3": 2.25,
+            "6": 3.25,
+            "9": 3.5,
+            "12": 4,
+            "24": 4,
+            "36": 4,
+            "48": 4,
+            "60": 4
+          },
+          "maturity": {
+            "3": 2.5,
+            "6": 3.5,
+            "9": 4,
+            "12": 4.5,
+            "24": 4.5,
+            "36": 5.5,
+            "48": 5.5,
+            "60": 5.5
+          }
+        }
+      },
+      "savings_brackets": {
+        "usd": [
+          {
+            "balance": "\u2264 5,000",
+            "rate": 0.1
+          },
+          {
+            "balance": "\u2265 5,000",
+            "rate": 3
+          }
+        ],
+        "khr": [
+          {
+            "balance": "\u2264 20,000,000",
+            "rate": 0.1
+          },
+          {
+            "balance": "\u2265 20,000,000",
+            "rate": 3
+          }
+        ]
+      }
+    },
+    {
+      "id": "woori",
+      "name": "Woori Bank",
+      "short": "WR",
+      "type": "bank",
+      "ownership": "Woori Group",
+      "year_started": 1899,
+      "contact": {
+        "phone": "081 331 333",
+        "email": null,
+        "website": "https://www.wooribank.com.kh",
+        "address": null
+      },
+      "logo": "LOGO/woori.jpg",
+      "rates": {
+        "usd": {
+          "monthly": {
+            "3": 3,
+            "6": 3.25,
+            "9": 3.25,
+            "12": 3.75,
+            "24": 3.95,
+            "36": 4.05,
+            "48": null,
+            "60": null
+          },
+          "maturity": {
+            "3": 3.25,
+            "6": 3.5,
+            "9": 3.5,
+            "12": 4,
+            "24": 4.2,
+            "36": 4.3,
+            "48": null,
+            "60": null
+          }
+        },
+        "khr": {
+          "monthly": {
+            "3": 3.25,
+            "6": 4,
+            "9": 4,
+            "12": 4.75,
+            "24": 5.1,
+            "36": 5.3,
+            "48": null,
+            "60": null
+          },
+          "maturity": {
+            "3": 3.5,
+            "6": 4.25,
+            "9": 4.25,
+            "12": 5,
+            "24": 5.35,
+            "36": 5.55,
+            "48": null,
+            "60": null
+          }
+        }
+      }
+    },
+    {
+      "id": "kb-prasac",
+      "name": "KB Prasac",
+      "short": "KP",
+      "type": "bank",
+      "ownership": "KB Financial Group",
+      "year_started": 2023,
+      "contact": {
+        "phone": "081 421 572",
+        "email": null,
+        "website": "https://www.kbprasacbank.com.kh",
+        "address": null
+      },
+      "logo": "https://www.kbprasacbank.com.kh/favicon.ico",
+      "rates": {
+        "usd": {
+          "monthly": {
+            "3": 2.5,
+            "6": 3,
+            "9": 3.25,
+            "12": 4.25,
+            "24": 4.25,
+            "36": 4.25,
+            "48": 4.25,
+            "60": 4.25
+          },
+          "maturity": {
+            "3": 2.75,
+            "6": 3.25,
+            "9": 3.5,
+            "12": 4.5,
+            "24": 4.5,
+            "36": 4.5,
+            "48": 4.5,
+            "60": 4.5
+          }
+        },
+        "khr": {
+          "monthly": {
+            "3": 3,
+            "6": 4,
+            "9": 4.25,
+            "12": 5.25,
+            "24": 5.25,
+            "36": 5.25,
+            "48": 5.25,
+            "60": 5.25
+          },
+          "maturity": {
+            "3": 3.25,
+            "6": 4.25,
+            "9": 4.5,
+            "12": 5.5,
+            "24": 5.5,
+            "36": 5.5,
+            "48": 5.5,
+            "60": 5.5
+          }
+        }
+      }
+    },
+    {
+      "id": "ppc",
+      "name": "PPC Bank",
+      "short": "PP",
+      "type": "bank",
+      "ownership": "JB Financial Group.",
+      "year_started": 2008,
+      "contact": {
+        "phone": "023 909 909",
+        "email": null,
+        "website": "https://www.ppcbank.com.kh/",
+        "address": null
+      },
+      "logo": "LOGO/PPC.jpeg",
+      "rates": {
+        "usd": {
+          "monthly": {
+            "3": 2.25,
+            "6": 3.7,
+            "9": null,
+            "12": 4.5,
+            "24": 4.65,
+            "36": 4.75,
+            "48": 4.85,
+            "60": 4.95
+          },
+          "maturity": {
+            "3": 2.5,
+            "6": 3.95,
+            "9": null,
+            "12": 4.7,
+            "24": 4.9,
+            "36": 5,
+            "48": 5.1,
+            "60": 5.2
+          }
+        },
+        "khr": {
+          "monthly": {
+            "3": 2.75,
+            "6": 4.2,
+            "9": null,
+            "12": 4.7,
+            "24": 5,
+            "36": null,
+            "48": null,
+            "60": null
+          },
+          "maturity": {
+            "3": 3,
+            "6": 4.45,
+            "9": null,
+            "12": 5.2,
+            "24": 5.4,
+            "36": null,
+            "48": null,
+            "60": null
+          }
+        }
+      }
+    },
+    {
+      "id": "ftb",
+      "name": "FTB Bank",
+      "short": "FTB",
+      "type": "bank",
+      "ownership": "MEF + Individuals + Enterprises",
+      "year_started": 1979,
+      "contact": {
+        "phone": "023 862 111",
+        "email": null,
+        "website": "https://ftb.com.kh/en/",
+        "address": null
+      },
+      "logo": "LOGO/ftb.png",
+      "rates": {
+        "usd": {
+          "monthly": {
+            "3": 2.25,
+            "6": 3,
+            "9": 3.25,
+            "12": 3.5
+          },
+          "maturity": {
+            "3": 2.25,
+            "6": 3,
+            "9": 3.25,
+            "12": 3.5
+          }
+        },
+        "khr": {
+          "monthly": {
+            "3": 3,
+            "6": 3.75,
+            "9": 4,
+            "12": 4.25
+          },
+          "maturity": {
+            "3": 3,
+            "6": 3.75,
+            "9": 4,
+            "12": 4.25
+          }
+        }
+      }
+    },
+    {
+      "id": "lolc",
+      "name": "LOLC",
+      "short": "LC",
+      "type": "mfi",
+      "ownership": "TPC-ESOP + \u00a0LOLC Asia Private Limited",
+      "year_started": 1994,
+      "contact": {
+        "phone": "023 991 991",
+        "email": null,
+        "website": "https://www.lolc.com.kh",
+        "address": null
+      },
+      "logo": "LOGO/LOLC.png",
+      "rates": {
+        "usd": {
+          "monthly": {
+            "3": 4.1,
+            "6": 4.25,
+            "9": 4.5,
+            "12": 5.25,
+            "24": 5.5,
+            "36": 5.5,
+            "48": null,
+            "60": null
+          },
+          "maturity": {
+            "3": 4.25,
+            "6": 4.5,
+            "9": 4.75,
+            "12": 5.5,
+            "24": 5.75,
+            "36": 5.75,
+            "48": null,
+            "60": null
+          }
+        },
+        "khr": {
+          "monthly": {
+            "3": 4.1,
+            "6": 4.25,
+            "9": 4.5,
+            "12": 5.25,
+            "24": 5.5,
+            "36": 5.5,
+            "48": null,
+            "60": null
+          },
+          "maturity": {
+            "3": 4.25,
+            "6": 4.5,
+            "9": 4.75,
+            "12": 5.5,
+            "24": 5.75,
+            "36": 5.75,
+            "48": null,
+            "60": null
+          }
+        }
+      }
+    },
+    {
+      "id": "amk",
+      "name": "AMK",
+      "short": "AK",
+      "type": "mfi",
+      "ownership": "SinoPac",
+      "year_started": 2002,
+      "contact": {
+        "phone": "023 220 202",
+        "email": "support@amkcambodia.com",
+        "website": "https://www.amkcambodia.com",
+        "address": null
+      },
+      "logo": "LOGO/AMK.jpg",
+      "rates": {
+        "usd": {
+          "monthly": {
+            "3": 2.75,
+            "6": 3.75,
+            "9": 4,
+            "12": 4.75,
+            "24": 5,
+            "36": 5,
+            "48": null,
+            "60": null
+          },
+          "maturity": {
+            "3": 3,
+            "6": 4,
+            "9": 4.25,
+            "12": 5,
+            "24": 5.25,
+            "36": 5.5,
+            "48": null,
+            "60": null
+          }
+        },
+        "khr": {
+          "monthly": {
+            "3": 3,
+            "6": 4,
+            "9": 4.25,
+            "12": 5,
+            "24": 5.5,
+            "36": 5.5,
+            "48": null,
+            "60": null
+          },
+          "maturity": {
+            "3": 3.25,
+            "6": 4.25,
+            "9": 4.5,
+            "12": 5.25,
+            "24": 5.75,
+            "36": 6,
+            "48": null,
+            "60": null
+          }
+        }
+      }
+    },
+    {
+      "id": "amret",
+      "name": "Amret",
+      "short": "AM",
+      "type": "mfi",
+      "ownership": "Not stated on official site",
+      "year_started": 1991,
+      "contact": {
+        "phone": null,
+        "email": null,
+        "website": "https://www.amret.com.kh",
+        "address": null
+      },
+      "logo": "LOGO/AMRET.png",
+      "rates": {
+        "usd": {
+          "monthly": {
+            "3": 2,
+            "6": 2.5,
+            "9": 2.5,
+            "12": 4,
+            "18": 4,
+            "24": 4,
+            "30": 4,
+            "36": 4,
+            "48": 5,
+            "60": 5
+          },
+          "maturity": {
+            "3": 2.5,
+            "6": 3,
+            "9": 3,
+            "12": 4.5,
+            "18": 4.5,
+            "24": 4.5,
+            "30": 4.5,
+            "36": 4.5,
+            "48": 5.5,
+            "60": 5.5
+          }
+        },
+        "khr": {
+          "monthly": {
+            "3": 2,
+            "6": 2.5,
+            "9": 2.5,
+            "12": 4,
+            "18": 4,
+            "24": 4,
+            "30": 4,
+            "36": 4,
+            "48": 5,
+            "60": 5
+          },
+          "maturity": {
+            "3": 2.5,
+            "6": 3,
+            "9": 3,
+            "12": 4.5,
+            "18": 4.5,
+            "24": 4.5,
+            "30": 4.5,
+            "36": 4.5,
+            "48": 5.5,
+            "60": 5.5
+          }
+        }
+      }
+    },
+    {
+      "id": "mohanokor",
+      "name": "Mohanokor",
+      "short": "MH",
+      "type": "mfi",
+      "ownership": "CHHUN Sopheak",
+      "year_started": 2015,
+      "contact": {
+        "phone": "096 62 62 888",
+        "email": null,
+        "website": "https://www.mohanokormfi.com.kh",
+        "address": null
+      },
+      "logo": "LOGO/Mohanokor.png",
+      "rates": {
+        "usd": {
+          "monthly": {
+            "3": 3,
+            "6": 4.25,
+            "9": 4.5,
+            "12": 5.75,
+            "24": 6.25,
+            "36": 6.25,
+            "48": 6.25,
+            "60": 6.25
+          },
+          "maturity": {
+            "3": 3.25,
+            "6": 4.5,
+            "9": 4.75,
+            "12": 6,
+            "24": 6.5,
+            "36": 6.5,
+            "48": 6.5,
+            "60": 6.5
+          }
+        },
+        "khr": {
+          "monthly": {
+            "3": 3.25,
+            "6": 4.35,
+            "9": 4.6,
+            "12": 5.75,
+            "24": 6.25,
+            "36": 6.25,
+            "48": 6.25,
+            "60": 6.25
+          },
+          "maturity": {
+            "3": 3.5,
+            "6": 4.6,
+            "9": 4.75,
+            "12": 6.1,
+            "24": 6.5,
+            "36": 6.5,
+            "48": 6.5,
+            "60": 6.5
+          }
+        }
+      }
+    }
+  ]
+}

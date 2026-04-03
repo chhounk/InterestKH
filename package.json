@@ -1,0 +1,12 @@
+{
+  "name": "myfinancekh",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "scrape": "node scripts/scrape.mjs"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "robots-parser": "^3.0.1"
+  }
+}

@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InterestKH — Cambodia Interest Rate Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF8;
+    --bg-white: #FFFFFF;
+    --bg-warm: #F5F4F0;
+    --bg-hover: #F0EFEB;
+    --text-primary: #1A1A1A;
+    --text-secondary: #5A5A5A;
+    --text-muted: #9A9A9A;
+    --accent-gold: #B8860B;
+    --accent-blue: #2563EB;
+    --accent-green: #16803C;
+    --accent-green-light: #DCFCE7;
+    --accent-red: #DC2626;
+    --border: #E5E5E0;
+    --border-light: #EDEDEA;
+    --best-rate-bg: #DCFCE7;
+    --best-rate-text: #166534;
+    --radius: 8px;
+    --radius-lg: 12px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'IBM Plex Sans', 'Noto Sans Khmer', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  body.kh { font-family: 'Noto Sans Khmer', 'IBM Plex Sans', sans-serif; }
+
+  /* ── HEADER ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(16px);
+  }
+  .header-inner {
+    max-width: 1280px; margin: 0 auto; padding: 0 24px;
+    height: 60px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-mark {
+    width: 34px; height: 34px; background: var(--accent-gold); border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif; font-size: 17px; color: #fff;
+  }
+  .logo-text { font-family: 'DM Serif Display', serif; font-size: 19px; color: var(--text-primary); letter-spacing: -0.02em; }
+  .logo-text span { color: var(--accent-gold); }
+
+  .header-right { display: flex; align-items: center; gap: 20px; }
+
+  nav { display: flex; align-items: center; gap: 24px; }
+  nav a {
+    font-size: 13px; font-weight: 500; color: var(--text-secondary);
+    text-decoration: none; transition: color 0.2s; cursor: pointer;
+  }
+  nav a:hover, nav a.active { color: var(--text-primary); }
+  nav a.active { position: relative; }
+  nav a.active::after {
+    content: ''; position: absolute; bottom: -19px; left: 0; right: 0;
+    height: 2px; background: var(--accent-gold); border-radius: 1px;
+  }
+
+  .lang-toggle {
+    display: flex; gap: 2px; background: var(--bg-warm); border: 1px solid var(--border);
+    border-radius: 6px; padding: 2px; cursor: pointer;
+  }
+  .lang-btn {
+    font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 4px;
+    border: none; background: transparent; cursor: pointer; color: var(--text-secondary);
+    transition: all 0.2s; font-family: 'IBM Plex Sans', 'Noto Sans Khmer', sans-serif;
+  }
+  .lang-btn.active { background: var(--bg-white); color: var(--text-primary); box-shadow: var(--shadow-sm); }
+
+  .last-updated {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-muted);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .pulse { width: 6px; height: 6px; background: var(--accent-green); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* ── HERO ── */
+  .hero { max-width: 1280px; margin: 0 auto; padding: 48px 24px 32px; }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif; font-size: 38px; font-weight: 400;
+    letter-spacing: -0.025em; line-height: 1.15; margin-bottom: 10px;
+  }
+  body.kh .hero h1 { font-family: 'Noto Sans Khmer', serif; font-size: 32px; font-weight: 700; }
+  .hero h1 .gold { color: var(--accent-gold); }
+  .hero p { font-size: 15px; color: var(--text-secondary); max-width: 560px; line-height: 1.65; }
+
+  /* ── STATS ── */
+  .stats-row {
+    max-width: 1280px; margin: 0 auto; padding: 0 24px 32px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+  }
+  .stat-card {
+    background: var(--bg-white); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 18px 20px; box-shadow: var(--shadow-sm); transition: box-shadow 0.2s;
+  }
+  .stat-card:hover { box-shadow: var(--shadow-md); }
+  .stat-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 6px; }
+  .stat-value { font-family: 'IBM Plex Mono', monospace; font-size: 28px; font-weight: 500; color: var(--accent-green); }
+  .stat-value.gold { color: var(--accent-gold); }
+  .stat-value.neutral { color: var(--text-primary); }
+  .stat-meta { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
+  .stat-meta .institution { color: var(--text-primary); font-weight: 600; }
+
+  /* ── SECTION ── */
+  .section { max-width: 1280px; margin: 0 auto; padding: 0 24px 40px; }
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+  .section-title { font-family: 'DM Serif Display', serif; font-size: 22px; font-weight: 400; }
+  body.kh .section-title { font-family: 'Noto Sans Khmer', serif; font-size: 20px; font-weight: 700; }
+  .section-tabs {
+    display: flex; gap: 3px; background: var(--bg-warm); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 3px;
+  }
+  .section-tab {
+    font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 6px; cursor: pointer;
+    color: var(--text-secondary); border: none; background: transparent; transition: all 0.2s;
+    font-family: inherit;
+  }
+  .section-tab.active { background: var(--bg-white); color: var(--text-primary); box-shadow: var(--shadow-sm); }
+  .section-tab:hover:not(.active) { color: var(--text-primary); }
+
+  /* ── FILTER ── */
+  .filter-bar {
+    max-width: 1280px; margin: 0 auto; padding: 0 24px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
+  .filter-label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted);
+  }
+  .filter-tabs {
+    display: flex; gap: 3px; background: var(--bg-warm); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 3px;
+  }
+  .filter-tab {
+    font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 6px; cursor: pointer;
+    color: var(--text-secondary); border: none; background: transparent; transition: all 0.2s;
+    font-family: inherit;
+  }
+  .filter-tab.active { background: var(--bg-white); color: var(--text-primary); box-shadow: var(--shadow-sm); }
+  .filter-tab:hover:not(.active) { color: var(--text-primary); }
+
+  /* ── TABLE ── */
+  .table-wrapper {
+    background: var(--bg-white); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    overflow: hidden; overflow-x: auto; box-shadow: var(--shadow-sm);
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 880px; }
+  thead th {
+    background: var(--bg-warm); font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.07em; color: var(--text-muted); padding: 10px 14px; text-align: right;
+    border-bottom: 1px solid var(--border); white-space: nowrap; user-select: none;
+  }
+  thead th:first-child { text-align: left; padding-left: 18px; }
+  thead th.col-usd { color: var(--accent-blue); }
+  thead th.col-khr { color: var(--accent-gold); }
+
+  .th-sortable { cursor: pointer; position: relative; }
+  .th-sortable:hover { background: var(--bg-hover); }
+  .sort-icons {
+    display: inline-flex; flex-direction: column; margin-left: 4px; vertical-align: middle;
+    line-height: 1; gap: 0px; font-size: 8px; position: relative; top: -1px;
+  }
+  .sort-icons .up, .sort-icons .down { opacity: 0.3; transition: opacity 0.15s; }
+  .sort-icons .up.active, .sort-icons .down.active { opacity: 1; }
+
+  tbody tr { border-bottom: 1px solid var(--border-light); transition: background 0.12s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg-hover); }
+  tbody td {
+    padding: 13px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 13px;
+    text-align: right; color: var(--text-primary); white-space: nowrap;
+  }
+  tbody td:first-child {
+    text-align: left; padding-left: 18px; font-family: 'IBM Plex Sans', 'Noto Sans Khmer', sans-serif;
+    font-weight: 600; font-size: 13px;
+  }
+  .inst-logo { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; }
+  .inst-icon {
+    width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center;
+    justify-content: center; font-weight: 700; font-size: 10px; flex-shrink: 0; color: #fff;
+  }
+  .inst-icon.has-img { background: #fff; border: 1px solid var(--border); color: transparent; }
+  .inst-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .inst-type {
+    font-size: 9px; font-weight: 700; color: #fff; background: var(--accent-gold);
+    padding: 1px 5px; border-radius: 3px; letter-spacing: 0.05em; text-transform: uppercase; margin-left: 2px;
+  }
+  .best-rate {
+    background: var(--best-rate-bg); color: var(--best-rate-text); font-weight: 600;
+    border-radius: 4px; padding: 3px 7px; margin: -3px -7px; display: inline-block;
+  }
+  .rate-na { color: var(--text-muted); font-size: 12px; }
+  .is-hidden { display: none !important; }
+
+  /* ── SAVINGS CARDS ── */
+  .savings-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .savings-card {
+    background: var(--bg-white); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 18px; box-shadow: var(--shadow-sm); transition: box-shadow 0.2s;
+  }
+  .savings-card:hover { box-shadow: var(--shadow-md); }
+  .savings-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .savings-card-name { font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+  .savings-currency {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 4px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--text-secondary);
+    background: var(--bg-warm);
+  }
+  .savings-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .savings-table th {
+    text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-muted); padding-bottom: 6px; border-bottom: 1px solid var(--border-light);
+  }
+  .savings-table th:last-child, .savings-table td:last-child { text-align: right; }
+  .savings-table td {
+    padding: 8px 0; border-bottom: 1px solid var(--border-light); font-family: 'IBM Plex Mono', monospace;
+  }
+  .savings-table tr:last-child td { border-bottom: none; }
+  .savings-note { font-size: 12px; color: var(--text-secondary); padding: 8px 0; }
+
+  /* ── CHART ── */
+  .chart-card {
+    background: var(--bg-white); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 20px; box-shadow: var(--shadow-sm);
+  }
+  .chart-controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
+  .chart-pill {
+    font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+    color: var(--text-secondary); border: 1px solid var(--border); background: var(--bg-warm);
+    transition: all 0.2s; font-family: inherit;
+  }
+  .chart-pill.active { background: var(--bg-white); color: var(--text-primary); box-shadow: var(--shadow-sm); }
+  .chart-select {
+    padding: 6px 10px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg-white);
+    font-size: 12px; font-weight: 600; font-family: inherit; color: var(--text-primary);
+  }
+  .chart-rows { display: grid; gap: 10px; }
+  .chart-row {
+    display: grid; grid-template-columns: 140px 1fr 64px; gap: 10px; align-items: center;
+    font-size: 12px; color: var(--text-secondary);
+  }
+  .chart-name { font-weight: 600; color: var(--text-primary); }
+  .chart-track { background: var(--bg-warm); border-radius: 999px; height: 10px; overflow: hidden; }
+  .chart-bar { height: 10px; border-radius: 999px; width: 0; transition: width 0.4s ease; background: var(--accent-blue); }
+  .chart-bar.khr { background: var(--accent-gold); }
+  .chart-value { text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--text-primary); }
+  .chart-note { font-size: 11px; color: var(--text-muted); margin-top: 10px; }
+
+  /* ── MODAL ── */
+  .inst-modal {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+    display: none; align-items: center; justify-content: center; padding: 20px; z-index: 400;
+  }
+  .inst-modal.open { display: flex; }
+  .inst-modal-card {
+    background: var(--bg-white); border-radius: var(--radius-lg); padding: 22px 24px; width: 100%; max-width: 560px;
+    box-shadow: var(--shadow-md); border: 1px solid var(--border);
+  }
+  .inst-modal-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+  .inst-modal-title { display: flex; align-items: center; gap: 12px; }
+  .inst-modal-logo {
+    width: 46px; height: 46px; border-radius: 10px; background: var(--bg-warm); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .inst-modal-logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .inst-modal-name { font-size: 16px; font-weight: 700; }
+  .inst-modal-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+  .inst-modal-close {
+    background: var(--bg-warm); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+  }
+  .inst-modal-grid { display: grid; gap: 10px; }
+  .inst-modal-row { display: grid; grid-template-columns: 140px 1fr; gap: 12px; align-items: start; }
+  .inst-modal-label { font-size: 10px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .inst-modal-value { font-size: 13px; color: var(--text-primary); line-height: 1.5; }
+  .inst-modal-value a { color: var(--accent-blue); text-decoration: none; }
+
+  /* ── CALCULATOR ── */
+  .calc-wrapper {
+    background: var(--bg-white); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 28px 32px; box-shadow: var(--shadow-sm);
+  }
+  .calc-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 16px; align-items: end; }
+  .calc-field label {
+    display: block; font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 6px;
+  }
+  .calc-field input, .calc-field select {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius);
+    font-size: 14px; font-family: 'IBM Plex Mono', monospace; background: var(--bg);
+    color: var(--text-primary); outline: none; transition: border-color 0.2s;
+  }
+  .calc-field input:focus, .calc-field select:focus { border-color: var(--accent-gold); }
+  .calc-btn {
+    padding: 10px 24px; background: var(--accent-gold); color: #fff; border: none;
+    border-radius: var(--radius); font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: background 0.2s; font-family: inherit; white-space: nowrap;
+  }
+  .calc-btn:hover { background: #9A7209; }
+  .calc-result {
+    margin-top: 20px; padding: 20px 24px; background: var(--accent-green-light);
+    border-radius: var(--radius); display: none;
+  }
+  .calc-result.visible { display: block; }
+  .calc-result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .calc-result-item label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent-green); margin-bottom: 4px; display: block; }
+  .calc-result-item .val { font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 500; color: var(--best-rate-text); }
+
+  /* ── MISC ── */
+  .disclaimer {
+    max-width: 1280px; margin: 0 auto; padding: 24px 24px 20px;
+    font-size: 11px; color: var(--text-muted); line-height: 1.7; border-top: 1px solid var(--border);
+  }
+  footer {
+    max-width: 1280px; margin: 0 auto; padding: 20px 24px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-left { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+  .footer-left a { color: var(--text-secondary); text-decoration: none; }
+  .footer-right { display: flex; gap: 20px; }
+  .footer-right a { font-size: 12px; color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+  .footer-right a:hover { color: var(--text-primary); }
+
+  .ic-canadia { background: #1A5276; } .ic-wing { background: #1B6B42; }
+  .ic-hattha { background: #8B5E3C; } .ic-woori { background: #1E3A6E; }
+  .ic-prasac { background: #6B2D5E; } .ic-ppc { background: #3D6B1D; }
+  .ic-lolc { background: #9B7600; } .ic-amk { background: #C62828; }
+  .ic-amret { background: #00796B; } .ic-mohanokor { background: #5E35B1; }
+
+  @media (max-width: 900px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .savings-grid { grid-template-columns: 1fr 1fr; }
+    .calc-grid { grid-template-columns: 1fr 1fr; }
+    .calc-result-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 26px; }
+    body.kh .hero h1 { font-size: 24px; }
+    .stats-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .savings-grid { grid-template-columns: 1fr; }
+    .calc-grid { grid-template-columns: 1fr; }
+    .chart-row { grid-template-columns: 1fr; }
+    .chart-value { text-align: left; }
+    nav { display: none; }
+    .hero { padding: 28px 16px 20px; }
+    .section { padding: 0 16px 28px; }
+    .stats-row { padding: 0 16px 24px; }
+    .filter-bar { padding: 0 16px 20px; }
+    footer { flex-direction: column; gap: 16px; align-items: flex-start; padding: 20px 16px 32px; }
+    .disclaimer { padding: 20px 16px; }
+    .header-inner { padding: 0 16px; }
+    .calc-wrapper { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#">
+      <div class="logo-mark">%</div>
+      <div class="logo-text">Interest<span>KH</span></div>
+    </a>
+    <nav>
+      <a href="#section-fd" class="active" data-en="Fixed Deposits" data-kh="ប្រាក់បញ្ញើមានកាលកំណត់">Fixed Deposits</a>
+      <a href="#section-savings" data-en="Savings" data-kh="គណនីសន្សំ">Savings</a>
+      <a href="#section-chart" data-en="Comparison" data-kh="ប្រៀបធៀប">Comparison</a>
+      <a href="#section-calc" data-en="Calculator" data-kh="ម៉ាស៊ីនគិតលេខ">Calculator</a>
+    </nav>
+    <div class="header-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" data-lang="kh" onclick="setLang('kh')">ខ្មែរ</button>
+      </div>
+      <div class="last-updated">
+        <div class="pulse"></div>
+        <span id="last-updated-text" data-en="Updated Mar 31, 2026 · 06:00" data-kh="ធ្វើបច្ចុប្បន្នភាព ៣១ មីនា ២០២៦">Updated Mar 31, 2026 · 06:00</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <h1 data-en="Cambodia <span class='gold'>Interest Rates</span><br>Compared" data-kh="ប្រៀបធៀប<span class='gold'>អត្រាការប្រាក់</span><br>នៅកម្ពុជា">Cambodia <span class="gold">Interest Rates</span><br>Compared</h1>
+  <p data-en="Automated tracking of savings and fixed deposit rates across Cambodian banks and microfinance institutions. Updated every 12 hours." data-kh="ការតាមដានស្វ័យប្រវត្តិនៃអត្រាការប្រាក់សន្សំ និងប្រាក់បញ្ញើមានកាលកំណត់នៅគ្រឹះស្ថានធនាគារ និងមីក្រូហិរញ្ញវត្ថុកម្ពុជា។ ធ្វើបច្ចុប្បន្នភាពរៀងរាល់ ១២ ម៉ោង។">Automated tracking of savings and fixed deposit rates across Cambodian banks and microfinance institutions. Updated every 12 hours.</p>
+</div>
+
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-label" data-en="Best 12-Mo FD (USD)" data-kh="បញ្ញើ ១២ខែ ល្អបំផុត (USD)">Best 12-Mo FD (USD)</div>
+    <div class="stat-value" id="stat-best-usd">—</div>
+    <div class="stat-meta"><span class="institution" id="stat-best-usd-inst">—</span> · <span data-en="Monthly payout" data-kh="បង់ប្រាក់ប្រចាំខែ">Monthly payout</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label" data-en="Best 12-Mo FD (KHR)" data-kh="បញ្ញើ ១២ខែ ល្អបំផុត (KHR)">Best 12-Mo FD (KHR)</div>
+    <div class="stat-value gold" id="stat-best-khr">—</div>
+    <div class="stat-meta"><span class="institution" id="stat-best-khr-inst">—</span> · <span data-en="Monthly payout" data-kh="បង់ប្រាក់ប្រចាំខែ">Monthly payout</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label" data-en="Best Savings Rate" data-kh="អត្រាសន្សំល្អបំផុត">Best Savings Rate</div>
+    <div class="stat-value" id="stat-best-savings">—</div>
+    <div class="stat-meta"><span class="institution" id="stat-best-savings-inst">—</span> · <span id="stat-best-savings-note" data-en="USD > 1,000,000" data-kh="USD > 1,000,000">USD > 1,000,000</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label" data-en="Institutions Tracked" data-kh="គ្រឹះស្ថានដែលតាមដាន">Institutions Tracked</div>
+    <div class="stat-value neutral" id="stat-count">—</div>
+    <div class="stat-meta"><span id="stat-count-meta" data-en="8 banks · 4 MFIs" data-kh="ធនាគារ ៨ · មីក្រូហិរញ្ញវត្ថុ ៤">8 banks · 4 MFIs</span></div>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-label" data-en="Institution Type" data-kh="ប្រភេទស្ថាប័ន">Institution Type</div>
+  <div class="filter-tabs">
+    <button class="filter-tab active" data-filter="all" data-en="Both" data-kh="ទាំងពីរ" onclick="setTypeFilter('all', this)">Both</button>
+    <button class="filter-tab" data-filter="bank" data-en="Bank" data-kh="ធនាគារ" onclick="setTypeFilter('bank', this)">Bank</button>
+    <button class="filter-tab" data-filter="mfi" data-en="MFI" data-kh="មីក្រូហិរញ្ញវត្ថុ" onclick="setTypeFilter('mfi', this)">MFI</button>
+  </div>
+</div>
+
+<!-- FD USD -->
+<div class="section" id="section-fd">
+  <div class="section-header">
+    <h2 class="section-title" data-en="Fixed Deposit Rates — USD" data-kh="អត្រាប្រាក់បញ្ញើមានកាលកំណត់ — USD">Fixed Deposit Rates — USD</h2>
+    <div class="section-tabs">
+      <button class="section-tab active" data-en="Monthly Payout" data-kh="បង់ប្រចាំខែ" onclick="switchMode('table-usd', 'monthly', this)">Monthly Payout</button>
+      <button class="section-tab" data-en="At Maturity" data-kh="នៅពេលផុតកំណត់" onclick="switchMode('table-usd', 'atmaturity', this)">At Maturity</button>
+    </div>
+  </div>
+  <div class="table-wrapper">
+    <table id="table-usd">
+      <thead>
+        <tr>
+          <th data-en="Institution" data-kh="គ្រឹះស្ថាន">Institution</th>
+          <th class="col-usd th-sortable" onclick="sortTable('table-usd',1)">3 <span data-en="Mo" data-kh="ខែ">Mo</span> <span class="sort-icons"><span class="up">▲</span><span class="down">▼</span></span></th>
+          <th class="col-usd th-sortable" onclick="sortTable('table-usd',2)">6 <span data-en="Mo" data-kh="ខែ">Mo</span> <span class="sort-icons"><span class="up">▲</span><span class="down">▼</span></span></th>
+          <th class="col-usd th-sortable" onclick="sortTable('table-usd',3)">9 <span data-en="Mo" data-kh="ខែ">Mo</span> <span class="sort-icons"><span class="up">▲</span><span class="down">▼</span></span></th>
+          <th class="col-usd th-sortable" onclick="sortTable('table-usd',4)">12 <span data-en="Mo" data-kh="ខែ">Mo</span> <span class="sort-icons"><span class="up">▲</span><span class="down">▼</span></span></th>
+          <th class="col-usd th-sortable" onclick="sortTable('table-usd',5)">24 <span data-en="Mo" data-kh="ខែ">Mo</span> <span class="sort-icons"><span class="up">▲</span><span class="down">▼</span></span></th>
+          <th class="col-usd th-sortable" onclick="sortTable('table-usd',6)">36 <span data-en="Mo" data-kh="ខែ">Mo</span> <span class="sort-icons"><span class="up">▲</span><span class="down">▼</span></span></th>
+          <th class="col-usd th-sortable" onclick="sortTable('table-usd',7)">48 <span data-en="Mo" data-kh="ខែ">Mo</span> <span class="sort-icons"><span class="up">▲</span><span class="down">▼</span></span></th>
+          <th class="col-usd th-sortable" onclick="sortTable('table-usd',8)">60 <span data-en="Mo" data-kh="ខែ">Mo</span> <span class="sort-icons"><span class="up">▲</span><span class="down">▼</span></span></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- FD KHR -->
+<div class="section">
+  <div class="section-header">
+    <h2 class="section-title" data-en="Fixed Deposit Rates — KHR" data-kh="អត្រាប្រាក់បញ្ញើមានកាលកំណត់ — KHR">Fixed Deposit Rates — KHR</h2>
+    <div class="section-tabs">
+      <button class="section-tab active" data-en="Monthly Payout" data-kh="បង់ប្រចាំខែ" onclick="switchMode('table-khr', 'monthly', this)">Monthly Payout</button>
+      <button class="section-tab" data-en="At Maturity" data-kh="នៅពេលផុតកំណត់" onclick="switchMode('table-khr', 'atmaturity', this)">At Maturity</button>
+    </div>
+  </div>
+  <div class="table-wrapper">
+    <table id="table-khr">
+      <thead>
+        <tr>
+          <th data-en="Institution" data-kh="គ្រឹះស្ថាន">Institution</th>
+          <th class="col-khr th-sortable" onclick="sortTable('table-khr',1)">3 <span data-en="Mo" data-kh="ខែ">Mo</span> <span class="sort-icons"><span class="up">▲</span><span class="down">▼</span></span></th>
+          <th class="col-khr th-sortable" onclick="sortTable('table-khr',2)">6 <span data-en="Mo" data-kh="ខែ">Mo</span> <span class="sort-icons"><span class="up">▲</span><span class="down">▼</span></span></th>
+          <th class="col-khr th-sortable" onclick="sortTable('table-khr',3)">9 <span data-en="Mo" data-kh="ខែ">Mo</span> <span class="sort-icons"><span class="up">▲</span><span class="down">▼</span></span></th>
+          <th class="col-khr th-sortable" onclick="sortTable('table-khr',4)">12 <span data-en="Mo" data-kh="ខែ">Mo</span> <span class="sort-icons"><span class="up">▲</span><span class="down">▼</span></span></th>
+          <th class="col-khr th-sortable" onclick="sortTable('table-khr',5)">24 <span data-en="Mo" data-kh="ខែ">Mo</span> <span class="sort-icons"><span class="up">▲</span><span class="down">▼</span></span></th>
+          <th class="col-khr th-sortable" onclick="sortTable('table-khr',6)">36 <span data-en="Mo" data-kh="ខែ">Mo</span> <span class="sort-icons"><span class="up">▲</span><span class="down">▼</span></span></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- CHART -->
+<div class="section" id="section-chart">
+  <div class="section-header">
+    <h2 class="section-title" data-en="Rate Comparison" data-kh="ការប្រៀបធៀបអត្រា">Rate Comparison</h2>
+    <div class="section-tabs">
+      <button class="section-tab active" data-en="USD" data-kh="USD" onclick="setChartCurrency('usd', this)">USD</button>
+      <button class="section-tab" data-en="KHR" data-kh="KHR" onclick="setChartCurrency('khr', this)">KHR</button>
+    </div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-controls">
+      <button class="chart-pill active" data-en="Monthly Payout" data-kh="បង់ប្រចាំខែ" onclick="setChartMode('monthly', this)">Monthly Payout</button>
+      <button class="chart-pill" data-en="At Maturity" data-kh="នៅពេលផុតកំណត់" onclick="setChartMode('atmaturity', this)">At Maturity</button>
+      <select class="chart-select" id="chart-term" onchange="setChartTerm(this.value)">
+        <option value="3">3 Mo</option>
+        <option value="6">6 Mo</option>
+        <option value="9">9 Mo</option>
+        <option value="12" selected>12 Mo</option>
+        <option value="24">24 Mo</option>
+        <option value="36">36 Mo</option>
+        <option value="48">48 Mo</option>
+        <option value="60">60 Mo</option>
+      </select>
+    </div>
+    <div class="chart-rows" id="rate-chart"></div>
+    <div class="chart-note" data-en="Showing visible institutions only." data-kh="បង្ហាញតែគ្រឹះស្ថានដែលមើលឃើញ។">Showing visible institutions only.</div>
+  </div>
+</div>
+
+<!-- SAVINGS -->
+<div class="section" id="section-savings">
+  <div class="section-header">
+    <h2 class="section-title" data-en="Savings Account Rates" data-kh="អត្រាការប្រាក់គណនីសន្សំ">Savings Account Rates</h2>
+    <div class="section-tabs">
+      <button class="section-tab active" data-en="USD" data-kh="USD" onclick="setSavingsCurrency('usd', this)">USD</button>
+      <button class="section-tab" data-en="KHR" data-kh="KHR" onclick="setSavingsCurrency('khr', this)">KHR</button>
+    </div>
+  </div>
+  <div class="savings-grid" id="savings-grid"></div>
+</div>
+
+<!-- CALCULATOR -->
+<div class="section" id="section-calc">
+  <div class="section-header">
+    <h2 class="section-title" data-en="Fixed Deposit Calculator" data-kh="ម៉ាស៊ីនគិតលេខប្រាក់បញ្ញើមានកាលកំណត់">Fixed Deposit Calculator</h2>
+  </div>
+  <div class="calc-wrapper">
+    <div class="calc-grid">
+      <div class="calc-field">
+        <label data-en="Deposit Amount (USD)" data-kh="ចំនួនប្រាក់បញ្ញើ (USD)">Deposit Amount (USD)</label>
+        <input type="number" id="calc-amount" placeholder="1,000" value="1000" min="0">
+      </div>
+      <div class="calc-field">
+        <label data-en="Interest Rate (% p.a.)" data-kh="អត្រាការប្រាក់ (% ក្នុងមួយឆ្នាំ)">Interest Rate (% p.a.)</label>
+        <input type="number" id="calc-rate" placeholder="5.50" value="5.50" step="0.01" min="0">
+      </div>
+      <div class="calc-field">
+        <label data-en="Term (Months)" data-kh="រយៈពេល (ខែ)">Term (Months)</label>
+        <select id="calc-term">
+          <option value="3">3</option>
+          <option value="6">6</option>
+          <option value="9">9</option>
+          <option value="12" selected>12</option>
+          <option value="24">24</option>
+          <option value="36">36</option>
+          <option value="48">48</option>
+          <option value="60">60</option>
+        </select>
+      </div>
+      <div class="calc-field">
+        <label data-en="Withholding Tax" data-kh="ពន្ធកាត់ទុក">Withholding Tax</label>
+        <select id="calc-tax">
+          <option value="4">4% (Resident)</option>
+          <option value="14">14% (Non-resident)</option>
+          <option value="0">0% (FI / Govt)</option>
+        </select>
+      </div>
+      <button class="calc-btn" onclick="calculate()" data-en="Calculate" data-kh="គណនា">Calculate</button>
+    </div>
+    <div class="calc-result" id="calc-result">
+      <div class="calc-result-grid">
+        <div class="calc-result-item">
+          <label data-en="Monthly Interest (Net)" data-kh="ការប្រាក់ប្រចាំខែ (សុទ្ធ)">Monthly Interest (Net)</label>
+          <div class="val" id="res-monthly">$0.00</div>
+        </div>
+        <div class="calc-result-item">
+          <label data-en="Total Interest Earned (Net)" data-kh="ការប្រាក់សរុបដែលទទួលបាន (សុទ្ធ)">Total Interest Earned (Net)</label>
+          <div class="val" id="res-total">$0.00</div>
+        </div>
+        <div class="calc-result-item">
+          <label data-en="Maturity Amount" data-kh="ចំនួនសរុបនៅពេលផុតកំណត់">Maturity Amount</label>
+          <div class="val" id="res-maturity">$0.00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="inst-modal" id="inst-modal">
+  <div class="inst-modal-card" role="dialog" aria-modal="true" aria-labelledby="inst-modal-name">
+    <div class="inst-modal-header">
+      <div class="inst-modal-title">
+        <div class="inst-modal-logo" id="inst-modal-logo"></div>
+        <div>
+          <div class="inst-modal-name" id="inst-modal-name">—</div>
+          <div class="inst-modal-sub" id="inst-modal-sub">—</div>
+        </div>
+      </div>
+      <button class="inst-modal-close" onclick="closeInstModal()" data-en="Close" data-kh="បិទ">Close</button>
+    </div>
+    <div class="inst-modal-grid" id="inst-modal-grid"></div>
+  </div>
+</div>
+
+<div class="disclaimer" data-en="<strong>Disclaimer:</strong> Rates shown are sourced from publicly available information on each institution's website. Actual rates may vary based on deposit amount, negotiation, and promotional offers. Withholding tax of 4% (residents) or 14% (non-residents) applies to interest earned. InterestKH is not affiliated with any financial institution. This is not financial advice. Data is automatically scraped every 12 hours. Always verify directly with the institution." data-kh="<strong>ការបដិសេធ:</strong> អត្រាការប្រាក់ត្រូវបានទាញយកពីព័ត៌មានសាធារណៈនៅលើគេហទំព័ររបស់គ្រឹះស្ថាននីមួយៗ។ អត្រាពិតប្រាកដអាចប្រែប្រួលដោយផ្អែកលើចំនួនប្រាក់បញ្ញើ ការចរចា និងការផ្សព្វផ្សាយ។ ពន្ធកាត់ទុក ៤% (និវាសនជន) ឬ ១៤% (អនិវាសនជន) ត្រូវបានអនុវត្តលើការប្រាក់ដែលទទួលបាន។ InterestKH មិនមានទំនាក់ទំនងជាមួយគ្រឹះស្ថានហិរញ្ញវត្ថុណាមួយទេ។ នេះមិនមែនជាដំបូន្មានហិរញ្ញវត្ថុទេ។"><strong>Disclaimer:</strong> Rates shown are sourced from publicly available information on each institution's website. Actual rates may vary based on deposit amount, negotiation, and promotional offers. Withholding tax of 4% (residents) or 14% (non-residents) applies to interest earned. InterestKH is not affiliated with any financial institution. This is not financial advice. Data is automatically scraped every 12 hours. Always verify directly with the institution.</div>
+
+<script>
+// ── DATA ──
+let institutions = [];
+let instById = {};
+let currentLang = 'en';
+let currentTypeFilter = 'all';
+let currentModalId = null;
+const sortState = {};
+const tableModes = { 'table-usd': 'monthly', 'table-khr': 'monthly' };
+const chartState = { currency: 'usd', mode: 'monthly', term: 12 };
+let savingsCurrency = 'usd';
+const termsUsd = [3, 6, 9, 12, 24, 36, 48, 60];
+const termsKhr = [3, 6, 9, 12, 24, 36];
+let lastUpdatedIso = null;
+
+function getFilteredInstitutions() {
+  return institutions.filter(inst => {
+    if (currentTypeFilter === 'all') return true;
+    return inst.type === currentTypeFilter;
+  });
+}
+
+function formatRate(val) {
+  if (val === null || val === undefined || Number.isNaN(val)) return '—';
+  return Number(val).toFixed(2) + '%';
+}
+
+function getRate(inst, currency, mode, term) {
+  const bucket = inst?.rates?.[currency]?.[mode];
+  if (!bucket) return null;
+  const val = bucket[String(term)];
+  return typeof val === 'number' ? val : null;
+}
+
+function updateLastUpdated(iso) {
+  if (!iso) return;
+  lastUpdatedIso = iso;
+  const date = new Date(iso);
+  const en = `Updated ${date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })} · ${date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`;
+  const kh = `ធ្វើបច្ចុប្បន្នភាព ${date.toLocaleDateString('km-KH', { year: 'numeric', month: 'long', day: 'numeric' })} · ${date.toLocaleTimeString('km-KH', { hour: '2-digit', minute: '2-digit' })}`;
+  const el = document.getElementById('last-updated-text');
+  if (!el) return;
+  el.setAttribute('data-en', en);
+  el.setAttribute('data-kh', kh);
+  el.innerHTML = currentLang === 'kh' ? kh : en;
+}
+
+function buildInstIcon(inst) {
+  const icon = document.createElement('div');
+  icon.className = 'inst-icon';
+  if (inst.logo) {
+    icon.classList.add('has-img');
+    const img = document.createElement('img');
+    img.src = inst.logo;
+    img.alt = `${inst.name} logo`;
+    img.loading = 'lazy';
+    icon.appendChild(img);
+  } else {
+    const initials = inst.short || inst.name.split(' ').map(p => p[0]).join('').slice(0, 3).toUpperCase();
+    icon.textContent = initials;
+  }
+  return icon;
+}
+
+function buildInstCell(inst) {
+  const td = document.createElement('td');
+  const wrap = document.createElement('div');
+  wrap.className = 'inst-logo';
+  wrap.setAttribute('role', 'button');
+  wrap.setAttribute('tabindex', '0');
+  wrap.dataset.instId = inst.id;
+  wrap.addEventListener('click', () => openInstModal(inst.id));
+  wrap.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openInstModal(inst.id);
+    }
+  });
+  wrap.appendChild(buildInstIcon(inst));
+
+  const nameSpan = document.createElement('span');
+  nameSpan.textContent = inst.name;
+  wrap.appendChild(nameSpan);
+
+  if (inst.type === 'mfi') {
+    const chip = document.createElement('span');
+    chip.className = 'inst-type';
+    chip.textContent = 'MFI';
+    wrap.appendChild(chip);
+  }
+  td.appendChild(wrap);
+  return td;
+}
+
+function buildRateCell(inst, currency, term) {
+  const td = document.createElement('td');
+  const monthly = getRate(inst, currency, 'monthly', term);
+  const maturity = getRate(inst, currency, 'maturity', term);
+  const monthlyText = formatRate(monthly);
+  const maturityText = formatRate(maturity);
+  td.setAttribute('data-monthly', monthlyText);
+  td.setAttribute('data-am', maturityText);
+  if (monthlyText === '—') {
+    td.innerHTML = '<span class="rate-na">—</span>';
+  } else {
+    td.textContent = monthlyText;
+  }
+  return td;
+}
+
+function renderTables() {
+  const usdBody = document.querySelector('#table-usd tbody');
+  const khrBody = document.querySelector('#table-khr tbody');
+  if (!usdBody || !khrBody) return;
+  usdBody.innerHTML = '';
+  khrBody.innerHTML = '';
+
+  institutions.forEach(inst => {
+    const rowUsd = document.createElement('tr');
+    rowUsd.dataset.instId = inst.id;
+    rowUsd.dataset.instType = inst.type;
+    rowUsd.appendChild(buildInstCell(inst));
+    termsUsd.forEach(term => rowUsd.appendChild(buildRateCell(inst, 'usd', term)));
+    usdBody.appendChild(rowUsd);
+
+    const rowKhr = document.createElement('tr');
+    rowKhr.dataset.instId = inst.id;
+    rowKhr.dataset.instType = inst.type;
+    rowKhr.appendChild(buildInstCell(inst));
+    termsKhr.forEach(term => rowKhr.appendChild(buildRateCell(inst, 'khr', term)));
+    khrBody.appendChild(rowKhr);
+  });
+
+  highlightBest('table-usd');
+  highlightBest('table-khr');
+}
+
+function renderSavings() {
+  const grid = document.getElementById('savings-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  const filtered = getFilteredInstitutions().filter(inst => inst.savings_brackets && inst.savings_brackets[savingsCurrency]);
+  if (filtered.length === 0) {
+    const note = document.createElement('div');
+    note.className = 'savings-note';
+    note.textContent = currentLang === 'kh' ? 'មិនមានទិន្នន័យគណនីសន្សំសម្រាប់ការជ្រើសរើសនេះទេ។' : 'No savings accounts for this filter.';
+    grid.appendChild(note);
+    return;
+  }
+
+  filtered.forEach(inst => {
+    const card = document.createElement('div');
+    card.className = 'savings-card';
+    card.dataset.instType = inst.type;
+    card.dataset.instId = inst.id;
+
+    const header = document.createElement('div');
+    header.className = 'savings-card-header';
+
+    const name = document.createElement('div');
+    name.className = 'savings-card-name';
+    const icon = buildInstIcon(inst);
+    icon.style.width = '24px';
+    icon.style.height = '24px';
+    icon.style.fontSize = '9px';
+    name.appendChild(icon);
+    const text = document.createElement('span');
+    text.textContent = inst.name;
+    name.appendChild(text);
+    name.addEventListener('click', () => openInstModal(inst.id));
+    name.style.cursor = 'pointer';
+
+    const currencyTag = document.createElement('div');
+    currencyTag.className = 'savings-currency';
+    currencyTag.textContent = savingsCurrency.toUpperCase();
+
+    header.appendChild(name);
+    header.appendChild(currencyTag);
+
+    const table = document.createElement('table');
+    table.className = 'savings-table';
+    const thead = document.createElement('thead');
+    const headRow = document.createElement('tr');
+    const thBalance = document.createElement('th');
+    thBalance.textContent = currentLang === 'kh' ? 'សមតុល្យប្រចាំថ្ងៃ' : 'Daily Balance';
+    const thRate = document.createElement('th');
+    thRate.textContent = currentLang === 'kh' ? 'អត្រាការប្រាក់' : 'Interest Rate';
+    headRow.appendChild(thBalance);
+    headRow.appendChild(thRate);
+    thead.appendChild(headRow);
+
+    const tbody = document.createElement('tbody');
+    const brackets = inst.savings_brackets?.[savingsCurrency] || [];
+    const currencyLabel = savingsCurrency.toUpperCase();
+    brackets.forEach(entry => {
+      const row = document.createElement('tr');
+      const bal = document.createElement('td');
+      bal.textContent = `${currencyLabel} ${entry.balance}`;
+      const rate = document.createElement('td');
+      rate.textContent = formatRate(entry.rate);
+      row.appendChild(bal);
+      row.appendChild(rate);
+      tbody.appendChild(row);
+    });
+
+    table.appendChild(thead);
+    table.appendChild(tbody);
+
+    card.appendChild(header);
+    card.appendChild(table);
+    grid.appendChild(card);
+  });
+}
+
+function findBestRate(currency, mode, term, pool = institutions) {
+  let best = { rate: null, inst: null };
+  pool.forEach(inst => {
+    const val = getRate(inst, currency, mode, term);
+    if (val === null) return;
+    if (best.rate === null || val > best.rate) {
+      best = { rate: val, inst };
+    }
+  });
+  return best;
+}
+
+function renderStats() {
+  const filtered = getFilteredInstitutions();
+  const bestUsd = findBestRate('usd', 'monthly', 12, filtered);
+  const bestKhr = findBestRate('khr', 'monthly', 12, filtered);
+  const savingsPool = filtered.filter(i => i.savings_brackets && i.savings_brackets[savingsCurrency]);
+  let bestSavings = { rate: null, inst: null, bracket: null };
+  savingsPool.forEach(inst => {
+    const brackets = inst.savings_brackets?.[savingsCurrency] || [];
+    brackets.forEach(entry => {
+      if (typeof entry.rate !== 'number') return;
+      if (bestSavings.rate === null || entry.rate > bestSavings.rate) {
+        bestSavings = { rate: entry.rate, inst, bracket: entry.balance };
+      }
+    });
+  });
+
+  const usdVal = document.getElementById('stat-best-usd');
+  const usdInst = document.getElementById('stat-best-usd-inst');
+  if (usdVal) usdVal.textContent = bestUsd.rate === null ? '—' : formatRate(bestUsd.rate);
+  if (usdInst) usdInst.textContent = bestUsd.inst ? bestUsd.inst.name : '—';
+
+  const khrVal = document.getElementById('stat-best-khr');
+  const khrInst = document.getElementById('stat-best-khr-inst');
+  if (khrVal) khrVal.textContent = bestKhr.rate === null ? '—' : formatRate(bestKhr.rate);
+  if (khrInst) khrInst.textContent = bestKhr.inst ? bestKhr.inst.name : '—';
+
+  const savVal = document.getElementById('stat-best-savings');
+  const savInst = document.getElementById('stat-best-savings-inst');
+  const savNote = document.getElementById('stat-best-savings-note');
+  if (savVal) savVal.textContent = bestSavings.rate === null ? '—' : formatRate(bestSavings.rate);
+  if (savInst) savInst.textContent = bestSavings.inst ? bestSavings.inst.name : '—';
+  if (savNote) {
+    const bracket = bestSavings.bracket ? `${savingsCurrency.toUpperCase()} ${bestSavings.bracket}` : '';
+    if (bracket) {
+      savNote.setAttribute('data-en', bracket);
+      savNote.setAttribute('data-kh', bracket);
+    }
+    savNote.textContent = currentLang === 'kh' ? (bracket || '—') : (bracket || '—');
+  }
+
+  const countVal = document.getElementById('stat-count');
+  const countMeta = document.getElementById('stat-count-meta');
+  const banks = filtered.filter(i => i.type === 'bank').length;
+  const mfis = filtered.filter(i => i.type === 'mfi').length;
+  if (countVal) countVal.textContent = String(filtered.length);
+  if (countMeta) {
+    let en;
+    let kh;
+    if (currentTypeFilter === 'all') {
+      en = `${banks} banks · ${mfis} MFIs`;
+      kh = `ធនាគារ ${banks} · មីក្រូហិរញ្ញវត្ថុ ${mfis}`;
+    } else if (currentTypeFilter === 'bank') {
+      en = `${banks} banks`;
+      kh = `ធនាគារ ${banks}`;
+    } else {
+      en = `${mfis} MFIs`;
+      kh = `មីក្រូហិរញ្ញវត្ថុ ${mfis}`;
+    }
+    countMeta.setAttribute('data-en', en);
+    countMeta.setAttribute('data-kh', kh);
+    countMeta.textContent = currentLang === 'kh' ? kh : en;
+  }
+}
+
+function renderChart() {
+  const container = document.getElementById('rate-chart');
+  if (!container) return;
+  container.innerHTML = '';
+  const modeKey = chartState.mode === 'atmaturity' ? 'maturity' : 'monthly';
+  const currency = chartState.currency;
+
+  const filtered = institutions.filter(inst => {
+    if (currentTypeFilter === 'all') return true;
+    return inst.type === currentTypeFilter;
+  }).map(inst => {
+    const rate = getRate(inst, currency, modeKey, chartState.term);
+    return { inst, rate };
+  }).filter(item => item.rate !== null);
+
+  if (filtered.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'chart-note';
+    empty.textContent = currentLang === 'kh' ? 'មិនមានទិន្នន័យសម្រាប់លក្ខខណ្ឌនេះទេ។' : 'No data available for this selection.';
+    container.appendChild(empty);
+    return;
+  }
+
+  filtered.sort((a, b) => b.rate - a.rate);
+  const max = Math.max(...filtered.map(i => i.rate));
+
+  filtered.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'chart-row';
+
+    const name = document.createElement('div');
+    name.className = 'chart-name';
+    name.textContent = item.inst.name;
+
+    const track = document.createElement('div');
+    track.className = 'chart-track';
+    const bar = document.createElement('div');
+    bar.className = 'chart-bar' + (currency === 'khr' ? ' khr' : '');
+    bar.style.width = `${(item.rate / max) * 100}%`;
+    track.appendChild(bar);
+
+    const value = document.createElement('div');
+    value.className = 'chart-value';
+    value.textContent = formatRate(item.rate);
+
+    row.appendChild(name);
+    row.appendChild(track);
+    row.appendChild(value);
+    container.appendChild(row);
+  });
+}
+
+function setChartCurrency(currency, btn) {
+  chartState.currency = currency;
+  btn.parentElement.querySelectorAll('.section-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderChart();
+}
+
+function setChartMode(mode, btn) {
+  chartState.mode = mode;
+  btn.parentElement.querySelectorAll('.chart-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderChart();
+}
+
+function setChartTerm(value) {
+  chartState.term = parseInt(value, 10);
+  renderChart();
+}
+
+function setSavingsCurrency(currency, btn) {
+  savingsCurrency = currency;
+  if (btn && btn.parentElement) {
+    btn.parentElement.querySelectorAll('.section-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  renderSavings();
+  renderStats();
+}
+
+// ── MODAL ──
+function renderModal() {
+  if (!currentModalId) return;
+  const inst = instById[currentModalId];
+  if (!inst) return;
+
+  const logoWrap = document.getElementById('inst-modal-logo');
+  const nameEl = document.getElementById('inst-modal-name');
+  const subEl = document.getElementById('inst-modal-sub');
+  const grid = document.getElementById('inst-modal-grid');
+
+  if (!logoWrap || !nameEl || !subEl || !grid) return;
+  logoWrap.innerHTML = '';
+  if (inst.logo) {
+    const img = document.createElement('img');
+    img.src = inst.logo;
+    img.alt = `${inst.name} logo`;
+    img.loading = 'lazy';
+    logoWrap.appendChild(img);
+  } else {
+    const icon = document.createElement('div');
+    icon.textContent = inst.short || inst.name.slice(0, 3).toUpperCase();
+    icon.style.fontWeight = '700';
+    logoWrap.appendChild(icon);
+  }
+
+  nameEl.textContent = inst.name;
+  subEl.textContent = currentLang === 'kh' ? (inst.type === 'mfi' ? 'មីក្រូហិរញ្ញវត្ថុ' : 'ធនាគារ') : (inst.type === 'mfi' ? 'Microfinance Institution' : 'Bank');
+  grid.innerHTML = '';
+
+  const labels = {
+    en: {
+      year: 'Date of Establishment',
+      ownership: 'Ownership',
+      phone: 'Phone',
+      email: 'Email',
+      website: 'Website',
+      address: 'Address',
+      notes: 'Notes'
+    },
+    kh: {
+      year: 'ឆ្នាំបង្កើត',
+      ownership: 'កម្មសិទ្ធិ',
+      phone: 'ទូរស័ព្ទ',
+      email: 'អ៊ីមែល',
+      website: 'គេហទំព័រ',
+      address: 'អាសយដ្ឋាន',
+      notes: 'កំណត់ចំណាំ'
+    }
+  };
+
+  const addRow = (labelKey, value) => {
+    const row = document.createElement('div');
+    row.className = 'inst-modal-row';
+    const label = document.createElement('div');
+    label.className = 'inst-modal-label';
+    label.textContent = labels[currentLang][labelKey];
+    const val = document.createElement('div');
+    val.className = 'inst-modal-value';
+    if (!value) {
+      val.textContent = currentLang === 'kh' ? 'មិនមានព័ត៌មានផ្លូវការ' : 'Not published';
+    } else if (labelKey === 'website') {
+      const link = document.createElement('a');
+      link.href = value;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.textContent = value;
+      val.appendChild(link);
+    } else {
+      val.textContent = value;
+    }
+    row.appendChild(label);
+    row.appendChild(val);
+    grid.appendChild(row);
+  };
+
+  addRow('year', inst.year_started ? String(inst.year_started) : null);
+  addRow('ownership', inst.ownership || null);
+  if (inst.notes) {
+    const noteVal = currentLang === 'kh' ? (inst.notes.kh || inst.notes.en) : (inst.notes.en || inst.notes.kh);
+    addRow('notes', noteVal || null);
+  }
+  addRow('phone', inst.contact?.phone || null);
+  addRow('email', inst.contact?.email || null);
+  addRow('website', inst.contact?.website || null);
+  addRow('address', inst.contact?.address || null);
+}
+
+function openInstModal(id) {
+  currentModalId = id;
+  renderModal();
+  const modal = document.getElementById('inst-modal');
+  if (modal) modal.classList.add('open');
+}
+
+function closeInstModal() {
+  const modal = document.getElementById('inst-modal');
+  if (modal) modal.classList.remove('open');
+  currentModalId = null;
+}
+
+// Close modal on backdrop click
+const modalEl = document.getElementById('inst-modal');
+if (modalEl) {
+  modalEl.addEventListener('click', (e) => {
+    if (e.target === modalEl) closeInstModal();
+  });
+}
+
+// ── SORT ──
+function sortTable(tableId, colIdx) {
+  const table = document.getElementById(tableId);
+  const tbody = table.querySelector('tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  const ths = table.querySelectorAll('thead th');
+
+  ths.forEach(th => {
+    th.querySelectorAll('.up, .down').forEach(el => el.classList.remove('active'));
+  });
+
+  const key = tableId + '-' + colIdx;
+  const currentDir = sortState[key] || 'none';
+  let newDir;
+  if (currentDir === 'none' || currentDir === 'asc') newDir = 'desc';
+  else newDir = 'asc';
+  sortState[key] = newDir;
+
+  const activeIcons = ths[colIdx].querySelector('.sort-icons');
+  if (activeIcons) {
+    if (newDir === 'desc') activeIcons.querySelector('.down').classList.add('active');
+    else activeIcons.querySelector('.up').classList.add('active');
+  }
+
+  rows.sort((a, b) => {
+    const aText = a.cells[colIdx]?.textContent.trim() || '';
+    const bText = b.cells[colIdx]?.textContent.trim() || '';
+    const aVal = parseFloat(aText) || -1;
+    const bVal = parseFloat(bText) || -1;
+    return newDir === 'desc' ? bVal - aVal : aVal - bVal;
+  });
+
+  rows.forEach(row => tbody.appendChild(row));
+  highlightBest(tableId);
+}
+
+function highlightBest(tableId) {
+  const table = document.getElementById(tableId);
+  const tbody = table.querySelector('tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr')).filter(row => !row.classList.contains('is-hidden'));
+  const numCols = rows[0]?.cells.length || 0;
+
+  tbody.querySelectorAll('.best-rate').forEach(el => {
+    el.outerHTML = el.innerHTML;
+  });
+
+  for (let c = 1; c < numCols; c++) {
+    let maxVal = -1;
+    let maxCells = [];
+    rows.forEach(row => {
+      const cell = row.cells[c];
+      const val = parseFloat(cell?.textContent) || -1;
+      if (val > maxVal) { maxVal = val; maxCells = [cell]; }
+      else if (val === maxVal && val > 0) { maxCells.push(cell); }
+    });
+    maxCells.forEach(cell => {
+      const text = cell.textContent.trim();
+      if (text !== '—') {
+        cell.innerHTML = `<span class="best-rate">${text}</span>`;
+      }
+    });
+  }
+}
+
+// ── TAB SWITCHING (Monthly / At Maturity) ──
+function switchMode(tableId, mode, tabEl) {
+  const tabs = tabEl.closest('.section-tabs').querySelectorAll('.section-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  tabEl.classList.add('active');
+
+  if (tableModes[tableId] === mode) return;
+  tableModes[tableId] = mode;
+
+  const table = document.getElementById(tableId);
+  const cells = table.querySelectorAll('tbody td:not(:first-child)');
+
+  cells.forEach(cell => {
+    if (mode === 'atmaturity') {
+      const am = cell.getAttribute('data-am');
+      if (am === '—') {
+        cell.innerHTML = '<span class="rate-na">—</span>';
+      } else if (am) {
+        cell.textContent = am;
+      }
+    } else {
+      const monthly = cell.getAttribute('data-monthly');
+      if (monthly === '—') {
+        cell.innerHTML = '<span class="rate-na">—</span>';
+      } else if (monthly) {
+        cell.textContent = monthly;
+      }
+    }
+  });
+
+  Object.keys(sortState).filter(k => k.startsWith(tableId)).forEach(k => delete sortState[k]);
+  table.querySelectorAll('.up, .down').forEach(el => el.classList.remove('active'));
+  highlightBest(tableId);
+}
+
+// ── INSTITUTION TYPE FILTER ──
+function applyTypeFilter() {
+  const rows = document.querySelectorAll('#table-usd tbody tr, #table-khr tbody tr');
+  rows.forEach(row => {
+    const type = row.dataset.instType || (row.querySelector('.inst-type') ? 'mfi' : 'bank');
+    const visible = currentTypeFilter === 'all' || currentTypeFilter === type;
+    row.classList.toggle('is-hidden', !visible);
+  });
+
+  highlightBest('table-usd');
+  highlightBest('table-khr');
+  renderStats();
+  renderSavings();
+  renderChart();
+}
+
+function setTypeFilter(type, btn) {
+  currentTypeFilter = type;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  applyTypeFilter();
+}
+
+// ── CALCULATOR ──
+function calculate() {
+  const amount = parseFloat(document.getElementById('calc-amount').value) || 0;
+  const rate = parseFloat(document.getElementById('calc-rate').value) || 0;
+  const months = parseInt(document.getElementById('calc-term').value) || 12;
+  const taxRate = parseFloat(document.getElementById('calc-tax').value) || 0;
+
+  const monthlyGross = (amount * (rate / 100)) / 12;
+  const monthlyNet = monthlyGross * (1 - taxRate / 100);
+  const totalNet = monthlyNet * months;
+  const maturity = amount + totalNet;
+
+  document.getElementById('res-monthly').textContent = '$' + monthlyNet.toFixed(2);
+  document.getElementById('res-total').textContent = '$' + totalNet.toFixed(2);
+  document.getElementById('res-maturity').textContent = '$' + maturity.toFixed(2);
+  document.getElementById('calc-result').classList.add('visible');
+}
+
+// ── LANGUAGE ──
+function setLang(lang) {
+  currentLang = lang;
+  document.body.classList.toggle('kh', lang === 'kh');
+
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+
+  document.querySelectorAll('[data-en][data-kh]').forEach(el => {
+    const text = el.getAttribute('data-' + lang);
+    if (text) el.innerHTML = text;
+  });
+
+  updateLastUpdated(lastUpdatedIso);
+  applyTypeFilter();
+  renderModal();
+  renderChart();
+}
+
+async function loadData() {
+  try {
+    const res = await fetch('data/institutions.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error('Failed to load data');
+    const data = await res.json();
+    institutions = data.institutions || [];
+    instById = institutions.reduce((acc, inst) => {
+      acc[inst.id] = inst;
+      return acc;
+    }, {});
+    updateLastUpdated(data.updated_at);
+    renderTables();
+    applyTypeFilter();
+    renderChart();
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+loadData();
+</script>
+
+</body>
+</html>
