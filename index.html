@@ -114,8 +114,9 @@
   .stat-value { font-family: 'IBM Plex Mono', monospace; font-size: 28px; font-weight: 500; color: var(--accent-green); }
   .stat-value.gold { color: var(--accent-gold); }
   .stat-value.neutral { color: var(--text-primary); }
-  .stat-meta { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
-  .stat-meta .institution { color: var(--text-primary); font-weight: 600; }
+  .stat-meta { font-size: 12px; color: var(--text-secondary); margin-top: 3px; display: flex; align-items: center; gap: 0; }
+  .stat-meta .institution { color: var(--text-primary); font-weight: 600; display: inline-flex; align-items: center; gap: 5px; }
+  .stat-meta .inst-icon { width: 18px; height: 18px; border-radius: 4px; font-size: 7px; flex-shrink: 0; }
 
   /* ── SECTION ── */
   .section { max-width: 1280px; margin: 0 auto; padding: 0 24px 40px; }
@@ -849,21 +850,33 @@ function renderStats() {
     });
   });
 
+  function setStatInst(el, inst) {
+    if (!el) return;
+    el.innerHTML = '';
+    if (inst) {
+      const icon = buildInstIcon(inst);
+      el.appendChild(icon);
+      el.appendChild(document.createTextNode(inst.name));
+    } else {
+      el.textContent = '—';
+    }
+  }
+
   const usdVal = document.getElementById('stat-best-usd');
   const usdInst = document.getElementById('stat-best-usd-inst');
   if (usdVal) usdVal.textContent = bestUsd.rate === null ? '—' : formatRate(bestUsd.rate);
-  if (usdInst) usdInst.textContent = bestUsd.inst ? bestUsd.inst.name : '—';
+  setStatInst(usdInst, bestUsd.inst);
 
   const khrVal = document.getElementById('stat-best-khr');
   const khrInst = document.getElementById('stat-best-khr-inst');
   if (khrVal) khrVal.textContent = bestKhr.rate === null ? '—' : formatRate(bestKhr.rate);
-  if (khrInst) khrInst.textContent = bestKhr.inst ? bestKhr.inst.name : '—';
+  setStatInst(khrInst, bestKhr.inst);
 
   const savVal = document.getElementById('stat-best-savings');
   const savInst = document.getElementById('stat-best-savings-inst');
   const savNote = document.getElementById('stat-best-savings-note');
   if (savVal) savVal.textContent = bestSavings.rate === null ? '—' : formatRate(bestSavings.rate);
-  if (savInst) savInst.textContent = bestSavings.inst ? bestSavings.inst.name : '—';
+  setStatInst(savInst, bestSavings.inst);
   if (savNote) {
     const bracket = bestSavings.bracket ? `${savingsCurrency.toUpperCase()} ${bestSavings.bracket}` : '';
     if (bracket) {
