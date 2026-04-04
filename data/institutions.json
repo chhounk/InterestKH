@@ -813,6 +813,71 @@
       }
     },
     {
+      "id": "sbi-ly-hour",
+      "name": "SBI LY HOUR Bank",
+      "short": "SBI",
+      "type": "bank",
+      "ownership": "SBI Holdings (Japan) & Ly Hour Group",
+      "year_started": 2008,
+      "contact": {
+        "phone": "+855 23 980 888",
+        "email": null,
+        "website": "https://www.sbilhbank.com.kh",
+        "address": null
+      },
+      "logo": "LOGO/SBI.png",
+      "rates": {
+        "usd": {
+          "monthly": {
+            "3": 2.75,
+            "6": 3.25,
+            "9": 4,
+            "12": 4.75,
+            "24": 4.75,
+            "36": 4.75,
+            "48": 4.75,
+            "60": 4.75
+          },
+          "maturity": {
+            "3": 3,
+            "6": 3.5,
+            "9": 4.25,
+            "12": 5,
+            "24": 5,
+            "36": 5,
+            "48": 5,
+            "60": 5
+          }
+        },
+        "khr": {
+          "monthly": {
+            "3": 3,
+            "6": 3.75,
+            "9": 4.5,
+            "12": 5.25,
+            "24": 5.25,
+            "36": 5.25,
+            "48": 5.25,
+            "60": 5.25
+          },
+          "maturity": {
+            "3": 3.25,
+            "6": 4,
+            "9": 4.75,
+            "12": 5.5,
+            "24": 5.5,
+            "36": 5.5,
+            "48": 5.5,
+            "60": 5.5
+          }
+        }
+      },
+      "notes": {
+        "en": "Rates shown are for Individual customers. Legal Entity rates may differ.",
+        "kh": "អត្រាការប្រាក់សម្រាប់អតិថិជនឯកត្តបុគ្គល។ អត្រាសម្រាប់នីតិបុគ្គលអាចខុសគ្នា។"
+      }
+    },
+    {
       "id": "mohanokor",
       "name": "Mohanokor",
       "short": "MH",

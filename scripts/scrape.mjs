@@ -262,6 +262,33 @@ function parseFtb(html) {
   return rates;
 }
 
+function parseSbiLyHour(html) {
+  const $ = load(html);
+  const tables = $('article table');
+  if (tables.length < 2) return null;
+
+  const rates = { usd: { monthly: {}, maturity: {} }, khr: { monthly: {}, maturity: {} } };
+
+  const parseTable = (table, payout) => {
+    $(table).find('tr').each((_, tr) => {
+      const cells = $(tr).find('th,td').map((_, el) => $(el).text().trim()).get();
+      if (cells.length < 3) return;
+      const term = parseInt(cells[0].replace('Month', '').trim(), 10);
+      if (!Number.isFinite(term)) return;
+      if (!TERMS_ALL.includes(term)) return;
+      // Each cell may have two values (Individual / Legal Entity); take the first
+      const khrVal = toFloat(cells[1].split(/\s+/)[0]);
+      const usdVal = toFloat(cells[2].split(/\s+/)[0]);
+      if (khrVal !== null) rates.khr[payout][String(term)] = khrVal;
+      if (usdVal !== null) rates.usd[payout][String(term)] = usdVal;
+    });
+  };
+
+  parseTable(tables[0], 'monthly');
+  parseTable(tables[1], 'maturity');
+  return rates;
+}
+
 function parseAcledaSavings(html) {
   const $ = load(html);
   let target = null;
@@ -511,6 +538,10 @@ function mergeSavings(existing, parsed) {
 }
 
 const SOURCES = {
+  'sbi-ly-hour': {
+    url: 'https://www.sbilhbank.com.kh/en/services/fixed_deposit/',
+    parse: parseSbiLyHour
+  },
   canadia: {
     url: 'https://www.canadiabank.com.kh/business/fixed-deposit-account',
     parse: parseCanadia
