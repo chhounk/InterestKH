@@ -407,12 +407,12 @@
   <div class="stat-card">
     <div class="stat-label" data-en="Best 12-Mo FD (USD)" data-kh="បញ្ញើ ១២ខែ ល្អបំផុត (USD)">Best 12-Mo FD (USD)</div>
     <div class="stat-value" id="stat-best-usd">—</div>
-    <div class="stat-meta"><span class="institution" id="stat-best-usd-inst">—</span> · <span data-en="Monthly payout" data-kh="បង់ប្រាក់ប្រចាំខែ">Monthly payout</span></div>
+    <div class="stat-meta"><span class="institution" id="stat-best-usd-inst">—</span> · <span id="stat-usd-payout" data-en="Monthly payout" data-kh="បង់ប្រាក់ប្រចាំខែ">Monthly payout</span></div>
   </div>
   <div class="stat-card">
     <div class="stat-label" data-en="Best 12-Mo FD (KHR)" data-kh="បញ្ញើ ១២ខែ ល្អបំផុត (KHR)">Best 12-Mo FD (KHR)</div>
     <div class="stat-value gold" id="stat-best-khr">—</div>
-    <div class="stat-meta"><span class="institution" id="stat-best-khr-inst">—</span> · <span data-en="Monthly payout" data-kh="បង់ប្រាក់ប្រចាំខែ">Monthly payout</span></div>
+    <div class="stat-meta"><span class="institution" id="stat-best-khr-inst">—</span> · <span id="stat-khr-payout" data-en="Monthly payout" data-kh="បង់ប្រាក់ប្រចាំខែ">Monthly payout</span></div>
   </div>
   <div class="stat-card">
     <div class="stat-label" data-en="Best Savings Rate" data-kh="អត្រាសន្សំល្អបំផុត">Best Savings Rate</div>
@@ -836,8 +836,10 @@ function findBestRate(currency, mode, term, pool = institutions) {
 
 function renderStats() {
   const filtered = getFilteredInstitutions();
-  const bestUsd = findBestRate('usd', 'monthly', 12, filtered);
-  const bestKhr = findBestRate('khr', 'monthly', 12, filtered);
+  const usdMode = tableModes['table-usd'] === 'atmaturity' ? 'maturity' : 'monthly';
+  const khrMode = tableModes['table-khr'] === 'atmaturity' ? 'maturity' : 'monthly';
+  const bestUsd = findBestRate('usd', usdMode, 12, filtered);
+  const bestKhr = findBestRate('khr', khrMode, 12, filtered);
   const savingsPool = filtered.filter(i => i.savings_brackets && i.savings_brackets[savingsCurrency]);
   let bestSavings = { rate: null, inst: null, bracket: null };
   savingsPool.forEach(inst => {
@@ -866,11 +868,27 @@ function renderStats() {
   const usdInst = document.getElementById('stat-best-usd-inst');
   if (usdVal) usdVal.textContent = bestUsd.rate === null ? '—' : formatRate(bestUsd.rate);
   setStatInst(usdInst, bestUsd.inst);
+  const usdPayoutEl = document.getElementById('stat-usd-payout');
+  if (usdPayoutEl) {
+    const enLabel = usdMode === 'maturity' ? 'At maturity' : 'Monthly payout';
+    const khLabel = usdMode === 'maturity' ? 'នៅពេលផុតកំណត់' : 'បង់ប្រាក់ប្រចាំខែ';
+    usdPayoutEl.setAttribute('data-en', enLabel);
+    usdPayoutEl.setAttribute('data-kh', khLabel);
+    usdPayoutEl.textContent = currentLang === 'kh' ? khLabel : enLabel;
+  }
 
   const khrVal = document.getElementById('stat-best-khr');
   const khrInst = document.getElementById('stat-best-khr-inst');
   if (khrVal) khrVal.textContent = bestKhr.rate === null ? '—' : formatRate(bestKhr.rate);
   setStatInst(khrInst, bestKhr.inst);
+  const khrPayoutEl = document.getElementById('stat-khr-payout');
+  if (khrPayoutEl) {
+    const enLabel = khrMode === 'maturity' ? 'At maturity' : 'Monthly payout';
+    const khLabel = khrMode === 'maturity' ? 'នៅពេលផុតកំណត់' : 'បង់ប្រាក់ប្រចាំខែ';
+    khrPayoutEl.setAttribute('data-en', enLabel);
+    khrPayoutEl.setAttribute('data-kh', khLabel);
+    khrPayoutEl.textContent = currentLang === 'kh' ? khLabel : enLabel;
+  }
 
   const savVal = document.getElementById('stat-best-savings');
   const savInst = document.getElementById('stat-best-savings-inst');
@@ -1197,6 +1215,7 @@ function switchMode(tableId, mode, tabEl) {
   Object.keys(sortState).filter(k => k.startsWith(tableId)).forEach(k => delete sortState[k]);
   table.querySelectorAll('.up, .down').forEach(el => el.classList.remove('active'));
   highlightBest(tableId);
+  renderStats();
 }
 
 // ── INSTITUTION TYPE FILTER ──
