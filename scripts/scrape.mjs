@@ -262,6 +262,67 @@ function parseFtb(html) {
   return rates;
 }
 
+function parseShinhan(html) {
+  const $ = load(html);
+  // Find the "II. Time Deposit Account" heading and the table immediately after it
+  let table = null;
+  $('h2').each((_, el) => {
+    const text = $(el).text().trim();
+    if (text.includes('Time Deposit Account') && !table) {
+      const next = $(el).nextAll('table').first();
+      if (next.length) table = next;
+    }
+  });
+  if (!table) return null;
+
+  const rates = { usd: { monthly: {}, maturity: {} }, khr: { monthly: {}, maturity: {} } };
+  let currentTerm = null;
+
+  table.find('tr').each((_, tr) => {
+    const cells = $(tr).find('td').map((_, el) => $(el).text().replace(/\s+/g, ' ').trim()).get();
+    if (cells.length === 0) return;
+
+    let irPaid = null;
+    let rateCells = null;
+    const firstCell = cells[0];
+
+    if (/^(monthly|at maturity)$/i.test(firstCell)) {
+      // Continuation row for a multi-IR term
+      irPaid = firstCell;
+      rateCells = cells.slice(1);
+    } else {
+      const termMatch = firstCell.match(/^(\d+)\s*M$/i);
+      if (!termMatch) return;
+      currentTerm = parseInt(termMatch[1], 10);
+      if (cells.length >= 10 && /^(monthly|at maturity)$/i.test(cells[1])) {
+        irPaid = cells[1];
+        rateCells = cells.slice(2);
+      } else {
+        // Single-rate term (1M, 3M, 6M)
+        rateCells = cells.slice(1);
+      }
+    }
+
+    if (!rateCells || rateCells.length < 8) return;
+    if (!TERMS_ALL.includes(currentTerm)) return;
+
+    // Individual KHR Counter = rateCells[4], USD Counter = rateCells[6]
+    const khrRate = toFloat(rateCells[4]);
+    const usdRate = toFloat(rateCells[6]);
+
+    const payouts = irPaid
+      ? [/at maturity/i.test(irPaid) ? 'maturity' : 'monthly']
+      : ['monthly', 'maturity'];
+
+    payouts.forEach(p => {
+      if (khrRate !== null) rates.khr[p][String(currentTerm)] = khrRate;
+      if (usdRate !== null) rates.usd[p][String(currentTerm)] = usdRate;
+    });
+  });
+
+  return rates;
+}
+
 function parseSbiLyHour(html) {
   const $ = load(html);
   const tables = $('article table');
@@ -538,6 +599,10 @@ function mergeSavings(existing, parsed) {
 }
 
 const SOURCES = {
+  shinhan: {
+    url: 'https://shinhan.com.kh/en/product/interest-rate-deposit.html',
+    parse: parseShinhan
+  },
   'sbi-ly-hour': {
     url: 'https://www.sbilhbank.com.kh/en/services/fixed_deposit/',
     parse: parseSbiLyHour
